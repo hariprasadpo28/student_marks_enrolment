@@ -37,7 +37,7 @@ def leader_board(request):
                 order_by = request.POST['sort_by']
 
         else:
-            qset = marks.objects.filter(name__unaccent__icontains = request.POST['search']).order_by("-percentage")
+            qset = marks.objects.filter(name__icontains = request.POST['search']).order_by("-percentage")
             order_by = "percentage"
             keyword = request.POST['search']
 
