@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '4*y=rc&f_@f2@mkf6x_h0#x0q0g!7&jjqg%6-%0olfww&=g*=@'
+SECRET_KEY = os.environ.get('ab_task_django_secret_key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -84,11 +85,11 @@ WSGI_APPLICATION = 'ab_task.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sample',
-        'HOST': '127.0.0.1',
+        'NAME': os.environ.get('aws_mysql_db_name'),
+        'HOST': os.environ.get('aws_mysql_host'),
         'PORT': '3306',
-        'USER': 'root',
-        'PASSWORD': 'jarvis@mysql',
+        'USER': 'admin',
+        'PASSWORD': os.environ.get('aws_mysql_user_password'),
     }
 }
 
