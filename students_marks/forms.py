@@ -9,9 +9,9 @@ class marks_form(forms.Form):
         widget=forms.TextInput(attrs = {'class':'form-control', 'required':True, 'placeholder':'Example: Alex'})
     )
 
-    roll_number = forms.CharField(
+    roll_number = forms.IntegerField(
         label="Student Roll Number",
-        widget=forms.TextInput(attrs={'class':'form-control', 'required':True, 'placeholder':'Example: 17BT2152'})
+        widget=forms.NumberInput(attrs={'class':'form-control', 'required':True, 'placeholder':'Example: 12345'})
     )
 
     maths_marks = forms.FloatField(
@@ -28,6 +28,14 @@ class marks_form(forms.Form):
         label="Marks in Chemistry",
         widget=forms.NumberInput(attrs={'class':" form-control",'step':0.1, 'required':True, 'placeholder':'Example: 75.25'})
     )
+
+    def clean_roll_number(self):
+        data = self.cleaned_data.get("roll_number")
+
+        if len(str(data)) != 5:
+            raise forms.ValidationError("Please Enter a valid Roll Number (5 digit number)")
+
+        return data
 
     def clean_maths_marks(self):
         data = self.cleaned_data.get("maths_marks")

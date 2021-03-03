@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+    <title>Students Marks Info - Leader Board</title>
+  </head>
+  <body style="background-color: whitesmoke;" >
+      <div class="container " style="border-radius: 1em;" >
+        <div class="card mt-5 shadow" style="border-radius: 1em;" >
+            <div class="card-header">
+                <h2 class="text-center" >
+                    Student Rankings (Based on {{ order_by }})
+                </h2>
+
+                <p class="text-center">
+                    <a href="{% url 'add_marks' %}">Add marks of a student</a>
+                </p>
+            </div>
+            <div class="card-body">
+                <nav class="navbar navbar-light m-0" >
+
+                    <form class="form-inline" method="POST" action=" {% url 'leaderboard' %} " >
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="sort" id="">
+                        <select class="form-control mr-sm-2"  id="sort_by" name = 'sort_by' required>
+                            <option value="program2" selected disabled> Select Any one </option>
+                            <option value="name"> Name (A-Z) </option>
+                            <option value="-name"> Name (Z-A) </option>
+                            <option value="total"> Total (Ascending) </option>
+                            <option value="-total"> Total (Descending) </option>
+                            <option value="-maths_marks"> By highest marks in maths</option>
+                            <option value="-physics_marks"> By highest marks in physics </option>
+                            <option value="-chemistry_marks">By highest marks in chemistry</option>
+                        </select>
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Sort</button>
+                    </form>
+
+                    <form class="form-inline" method="POST" action=" {% url 'leaderboard' %} " >
+
+                        {% csrf_token %}
+                        <input type="hidden" name="action" id="" value="search">
+                        <input class="form-control mr-sm-2" type="search" name = "search" placeholder="Search by name" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                    
+                </nav>
+
+                {% if keyword != "" %}
+                <div class="text-center">
+                    Showing results for "{{keyword}}"....
+                </div>
+                {% endif %}
+
+                {% for student in qset %}
+                <div class="card " style="border-radius: 1em;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <h2>
+                                    {{ forloop.counter }}
+                                </h2>
+                                <h6>
+                                    Position
+                                </h6>
+                            </div>
+                            <div class="col-sm-10">
+                                <div class="d-flex">
+                                    <div class="mr-5">
+                                        <h5>
+                                            Name: {{ student.name }}
+                                        </h5>
+                                        <h5>
+                                            Roll Number: {{ student.roll_number }}
+                                        </h5>
+                                    </div>
+                                    <div class="">
+                                        <h5>
+                                            Maths: {{ student.maths_marks }}
+                                        </h5>
+                                        <h5>
+                                            Physics: {{ student.physics_marks }}
+                                        </h5>
+                                        <h5>
+                                            Chemistry: {{ student.chemistry_marks }}
+                                        </h5>
+                                        <h5>
+                                            Total: {{ student.total }}
+                                        </h5>
+                                        <h5>
+                                            Percentage: {{ student.percentage }}
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p></p>
+                {% endfor %}
+            </div>
+
+        </div>
+      </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+
+  </body>
+</html>
